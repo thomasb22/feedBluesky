@@ -24,9 +24,9 @@ show_summary = [False, False]
 show_picture = [False, False]
 maxmsg = [2, 2]
 maxchar = [300, 300]
+logged = False
 
 bluesky = Client()
-bluesky.login(your_handle, your_pwd)
 
 for idx, feedUrl in enumerate(feedsUrl):
 	nbmsg = 0
@@ -106,6 +106,10 @@ for idx, feedUrl in enumerate(feedsUrl):
 				send = False
 
 		if send:
+			if not logged:
+				bluesky.login(your_handle, your_pwd)
+				logged = True
+
 			resp = requests.get(link)
 			soup = BeautifulSoup(resp.text, "html.parser")
 			imgEmbed = soup.find("meta", property="og:image")
